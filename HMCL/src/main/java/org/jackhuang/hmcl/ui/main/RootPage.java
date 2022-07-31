@@ -17,6 +17,8 @@
  */
 package org.jackhuang.hmcl.ui.main;
 
+import com.jfoenix.controls.JFXButton;
+import javafx.application.HostServices;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import org.jackhuang.hmcl.event.EventBus;
 import org.jackhuang.hmcl.event.RefreshedVersionsEvent;
@@ -34,6 +36,7 @@ import org.jackhuang.hmcl.ui.SVG;
 import org.jackhuang.hmcl.ui.account.AccountAdvancedListItem;
 import org.jackhuang.hmcl.ui.construct.AdvancedListBox;
 import org.jackhuang.hmcl.ui.construct.AdvancedListItem;
+import org.jackhuang.hmcl.ui.construct.IconedTwoLineListItem;
 import org.jackhuang.hmcl.ui.decorator.DecoratorAnimatedPage;
 import org.jackhuang.hmcl.ui.decorator.DecoratorPage;
 import org.jackhuang.hmcl.ui.download.ModpackInstallWizardProvider;
@@ -44,7 +47,11 @@ import org.jackhuang.hmcl.util.TaskCancellationAction;
 import org.jackhuang.hmcl.util.io.CompressingUtils;
 import org.jackhuang.hmcl.util.versioning.VersionNumber;
 
+import java.awt.*;
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -148,19 +155,27 @@ public class RootPage extends DecoratorAnimatedPage implements DecoratorPage {
             downloadItem.setTitle(i18n("download"));
             downloadItem.setOnAction(e -> Controllers.navigate(Controllers.getDownloadPage()));
 
-            // fifth item in left sidebar
-            AdvancedListItem multiplayerItem = new AdvancedListItem();
-            multiplayerItem.setLeftGraphic(wrap(SVG::lan));
-            multiplayerItem.setActionButtonVisible(false);
-            multiplayerItem.setTitle(i18n("multiplayer"));
-            multiplayerItem.setOnAction(e -> Controllers.navigate(Controllers.getMultiplayerPage()));
-
             // sixth item in left sidebar
             AdvancedListItem launcherSettingsItem = new AdvancedListItem();
             launcherSettingsItem.setLeftGraphic(wrap(SVG::gearOutline));
             launcherSettingsItem.setActionButtonVisible(false);
             launcherSettingsItem.setTitle(i18n("settings"));
             launcherSettingsItem.setOnAction(e -> Controllers.navigate(Controllers.getSettingsPage()));
+
+            // terms
+            AdvancedListItem termsItem = new AdvancedListItem();
+            termsItem.setLeftGraphic(wrap(SVG::bookOutline));
+            termsItem.setActionButtonVisible(false);
+            termsItem.setTitle(i18n("gennokioku.terms"));
+            termsItem.setOnAction(e -> FXUtils.openLink("https://wiki.craft.stomt.world/terms"));
+
+
+            // changelog
+            AdvancedListItem changelogItem = new AdvancedListItem();
+            changelogItem.setLeftGraphic(wrap(SVG::starOutline));
+            changelogItem.setActionButtonVisible(false);
+            changelogItem.setTitle(i18n("gennokioku.changelog"));
+            changelogItem.setOnAction(e -> FXUtils.openLink("https://wiki.craft.stomt.world/changelog"));
 
             // the left sidebar
             AdvancedListBox sideBar = new AdvancedListBox()
@@ -171,8 +186,10 @@ public class RootPage extends DecoratorAnimatedPage implements DecoratorPage {
                     .add(gameItem)
                     .add(downloadItem)
                     .startCategory(i18n("settings.launcher.general").toUpperCase())
-                    .add(multiplayerItem)
-                    .add(launcherSettingsItem);
+                    .add(launcherSettingsItem)
+                    .startCategory("Gennokioku")
+                    .add(termsItem)
+                    .add(changelogItem);
 
             // the root page, with the sidebar in left, navigator in center.
             setLeft(sideBar);

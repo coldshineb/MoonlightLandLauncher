@@ -30,12 +30,12 @@ import java.nio.file.Paths;
 public final class Metadata {
     private Metadata() {}
 
-    public static final String NAME = "HMCL";
-    public static final String FULL_NAME = "Hello Minecraft! Launcher";
-    public static final String VERSION = System.getProperty("hmcl.version.override", JarUtils.thisJar().flatMap(JarUtils::getImplementationVersion).orElse("@develop@"));
+    public static final String NAME = "Gennokioku 启动器";
+    public static final String FULL_NAME = "Gennokioku 启动器";
+    public static final String VERSION = "1.0";
 
     public static final String TITLE = NAME + " " + VERSION;
-    public static final String FULL_TITLE = FULL_NAME + " v" + VERSION;
+    public static final String FULL_TITLE = FULL_NAME + " " + VERSION;
 
     public static final String UPDATE_URL = System.getProperty("hmcl.update_source.override", "https://hmcl.huangyuhui.net/api/update_link");
     public static final String CONTACT_URL = "https://github.com/huanghongxun/HMCL/issues";

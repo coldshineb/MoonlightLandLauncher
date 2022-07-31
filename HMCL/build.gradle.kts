@@ -40,14 +40,14 @@ val buildNumber = System.getenv("BUILD_NUMBER")?.toInt().let { number ->
         if (!shortCommit.isNullOrEmpty()) "dev-$shortCommit" else "SNAPSHOT"
     }
 }
-val versionRoot = System.getenv("VERSION_ROOT") ?: "3.5"
+val versionRoot = System.getenv("VERSION_ROOT") ?: "1.0"
 val versionType = System.getenv("VERSION_TYPE") ?: "nightly"
 
 val microsoftAuthId = System.getenv("MICROSOFT_AUTH_ID") ?: ""
 val microsoftAuthSecret = System.getenv("MICROSOFT_AUTH_SECRET") ?: ""
 val curseForgeApiKey = System.getenv("CURSEFORGE_API_KEY") ?: ""
 
-version = "$versionRoot.$buildNumber"
+version = "$versionRoot"
 
 dependencies {
     implementation(project(":HMCLCore"))

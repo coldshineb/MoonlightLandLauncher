@@ -54,15 +54,9 @@ import static org.jackhuang.hmcl.util.javafx.ExtendedProperties.selectedItemProp
 
 public final class SettingsPage extends SettingsView {
 
-    private InvalidationListener updateListener;
-
     public SettingsPage() {
         FXUtils.smoothScrolling(scroll);
 
-        // ==== Languages ====
-        cboLanguage.getItems().setAll(Locales.LOCALES);
-        selectedItemPropertyFor(cboLanguage).bindBidirectional(config().localizationProperty());
-        // ====
 
         fileCommonLocation.selectedDataProperty().bindBidirectional(config().commonDirTypeProperty());
         fileCommonLocationSublist.subtitleProperty().bind(
@@ -70,47 +64,6 @@ public final class SettingsPage extends SettingsView {
                                 .orElse(i18n("launcher.cache_directory.disabled")),
                         config().commonDirectoryProperty(), config().commonDirTypeProperty()));
 
-        // ==== Update ====
-        FXUtils.installFastTooltip(btnUpdate, i18n("update.tooltip"));
-        updateListener = any -> {
-            btnUpdate.setVisible(UpdateChecker.isOutdated());
-
-            if (UpdateChecker.isOutdated()) {
-                lblUpdateSub.setText(i18n("update.newest_version", UpdateChecker.getLatestVersion().getVersion()));
-                lblUpdateSub.getStyleClass().setAll("update-label");
-
-                lblUpdate.setText(i18n("update.found"));
-                lblUpdate.getStyleClass().setAll("update-label");
-            } else if (UpdateChecker.isCheckingUpdate()) {
-                lblUpdateSub.setText(i18n("update.checking"));
-                lblUpdateSub.getStyleClass().setAll("subtitle-label");
-
-                lblUpdate.setText(i18n("update"));
-                lblUpdate.getStyleClass().setAll();
-            } else {
-                lblUpdateSub.setText(i18n("update.latest"));
-                lblUpdateSub.getStyleClass().setAll("subtitle-label");
-
-                lblUpdate.setText(i18n("update"));
-                lblUpdate.getStyleClass().setAll();
-            }
-        };
-        UpdateChecker.latestVersionProperty().addListener(new WeakInvalidationListener(updateListener));
-        UpdateChecker.outdatedProperty().addListener(new WeakInvalidationListener(updateListener));
-        UpdateChecker.checkingUpdateProperty().addListener(new WeakInvalidationListener(updateListener));
-        updateListener.invalidated(null);
-
-        ToggleGroup updateChannelGroup = new ToggleGroup();
-        chkUpdateDev.setToggleGroup(updateChannelGroup);
-        chkUpdateDev.setUserData(UpdateChannel.DEVELOPMENT);
-        chkUpdateStable.setToggleGroup(updateChannelGroup);
-        chkUpdateStable.setUserData(UpdateChannel.STABLE);
-        ObjectProperty<UpdateChannel> updateChannel = selectedItemPropertyFor(updateChannelGroup, UpdateChannel.class);
-        updateChannel.set(UpdateChannel.getChannel());
-        updateChannel.addListener((a, b, newValue) -> {
-            UpdateChecker.requestCheckUpdate(newValue);
-        });
-        // ====
     }
 
     @Override

@@ -11,13 +11,6 @@
          xmlns:fx="http://javafx.com/fxml"
          type="BorderPane"
          prefHeight="400.0" prefWidth="600.0">
-    <top>
-        <HintPane onMouseClicked="#onSponsor" text="%sponsor.bmclapi" styleClass="sponsor-pane">
-            <BorderPane.margin>
-                <Insets top="10" right="10" left="10" />
-            </BorderPane.margin>
-        </HintPane>
-    </top>
     <center>
         <TransitionPane fx:id="root">
             <JFXSpinner fx:id="spinner" styleClass="first-spinner" />

@@ -73,6 +73,16 @@ public final class SVG {
                 height);
     }
 
+    public static Node bookOutline(ObjectBinding<? extends Paint> fill, double width, double height) {
+        return createSVGPath("M21,4H3A2,2 0 0,0 1,6V19A2,2 0 0,0 3,21H21A2,2 0 0,0 23,19V6A2,2 0 0,0 21,4M3,19V6H11V19H3M21,19H13V6H21V19M14,9.5H20V11H14V9.5M14,12H20V13.5H14V12M14,14.5H20V16H14V14.5Z", fill, width,
+                height);
+    }
+
+    public static Node starOutline(ObjectBinding<? extends Paint> fill, double width, double height) {
+        return createSVGPath("M12,15.39L8.24,17.66L9.23,13.38L5.91,10.5L10.29,10.13L12,6.09L13.71,10.13L18.09,10.5L14.77,13.38L15.76,17.66M22,9.24L14.81,8.63L12,2L9.19,8.63L2,9.24L7.45,13.97L5.82,21L12,17.27L18.18,21L16.54,13.97L22,9.24Z", fill, width,
+                height);
+    }
+
     public static Node cancel(ObjectBinding<? extends Paint> fill, double width, double height) {
         return createSVGPath(
                 "M12 2C17.5 2 22 6.5 22 12S17.5 22 12 22 2 17.5 2 12 6.5 2 12 2M12 4C10.1 4 8.4 4.6 7.1 5.7L18.3 16.9C19.3 15.5 20 13.8 20 12C20 7.6 16.4 4 12 4M16.9 18.3L5.7 7.1C4.6 8.4 4 10.1 4 12C4 16.4 7.6 20 12 20C13.9 20 15.6 19.4 16.9 18.3Z",
