@@ -207,7 +207,7 @@ public class PersonalizationPage extends StackPane {
                     }
                 }
 
-                Label lblFontDisplay = new Label("Moonlight Land 启动器");
+                Label lblFontDisplay = new Label("Moonlight Land Launcher");
                 lblFontDisplay.fontProperty().bind(Bindings.createObjectBinding(
                         () -> Font.font(config().getLauncherFontFamily(), 12),
                         config().launcherFontFamilyProperty()));

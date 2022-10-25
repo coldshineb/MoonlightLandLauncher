@@ -46,8 +46,10 @@ import static org.jackhuang.hmcl.ui.FXUtils.stringConverter;
 import static org.jackhuang.hmcl.util.i18n.I18n.i18n;
 
 public abstract class SettingsView extends StackPane {
+    protected final JFXComboBox<SupportedLocale> cboLanguage;
     protected final MultiFileItem<EnumCommonDirectory> fileCommonLocation;
     protected final ComponentSublist fileCommonLocationSublist;
+
     protected final ScrollPane scroll;
 
     public SettingsView() {
@@ -58,11 +60,10 @@ public abstract class SettingsView extends StackPane {
 
         {
             VBox rootPane = new VBox();
-            rootPane.setPadding(new Insets(10, 10, 32, 10));
+            rootPane.setPadding(new Insets(32, 10, 32, 10));
             {
                 ComponentList settingsPane = new ComponentList();
                 {
-
                 }
 
                 {
@@ -88,6 +89,21 @@ public abstract class SettingsView extends StackPane {
                     }
 
                     settingsPane.getContent().add(fileCommonLocationSublist);
+                }
+
+                {
+                    BorderPane languagePane = new BorderPane();
+
+                    Label left = new Label(i18n("settings.launcher.language"));
+                    BorderPane.setAlignment(left, Pos.CENTER_LEFT);
+                    languagePane.setLeft(left);
+
+                    cboLanguage = new JFXComboBox<>();
+                    cboLanguage.setConverter(stringConverter(locale -> locale.getName(config().getLocalization().getResourceBundle())));
+                    FXUtils.setLimitWidth(cboLanguage, 400);
+                    languagePane.setRight(cboLanguage);
+
+                    settingsPane.getContent().add(languagePane);
                 }
 
                 {

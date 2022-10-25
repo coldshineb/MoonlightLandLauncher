@@ -74,8 +74,9 @@ final class ExitWaiter implements Runnable {
             } else if (exitCode != 0 || StringUtils.containsOne(errorLines, "Unable to launch")) {
                 EventBus.EVENT_BUS.fireEvent(new ProcessExitedAbnormallyEvent(this, process));
                 exitType = ProcessListener.ExitType.APPLICATION_ERROR;
-            } else
+            } else {
                 exitType = ProcessListener.ExitType.NORMAL;
+            }
 
             EventBus.EVENT_BUS.fireEvent(new ProcessStoppedEvent(this, process));
 

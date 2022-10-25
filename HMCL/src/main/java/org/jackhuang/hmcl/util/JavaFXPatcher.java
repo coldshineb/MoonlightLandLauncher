@@ -20,6 +20,8 @@ package org.jackhuang.hmcl.util;
 import java.nio.file.Path;
 import java.util.Set;
 
+import static org.jackhuang.hmcl.util.Logging.LOG;
+
 /**
  * Utility for Adding JavaFX to module path.
  *
@@ -30,6 +32,6 @@ public final class JavaFXPatcher {
     }
 
     public static void patch(Set<String> modules, Path... jarPaths) {
-        // Nothing to do with Java 8
+        LOG.info("No need to patch JavaFX with Java 8");
     }
 }

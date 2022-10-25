@@ -27,11 +27,7 @@ import org.jackhuang.hmcl.util.gson.UUIDTypeAdapter;
 import org.jackhuang.hmcl.util.io.FileUtils;
 import org.jackhuang.hmcl.util.io.IOUtils;
 import org.jackhuang.hmcl.util.io.Unzipper;
-import org.jackhuang.hmcl.util.platform.CommandBuilder;
-import org.jackhuang.hmcl.util.platform.JavaVersion;
-import org.jackhuang.hmcl.util.platform.ManagedProcess;
-import org.jackhuang.hmcl.util.platform.OperatingSystem;
-import org.jackhuang.hmcl.util.platform.Bits;
+import org.jackhuang.hmcl.util.platform.*;
 import org.jackhuang.hmcl.util.versioning.VersionNumber;
 
 import java.io.*;
@@ -112,17 +108,28 @@ public class DefaultLauncher extends Launcher {
 
         res.addAllWithoutParsing(options.getJavaArguments());
 
-        Charset encoding = OperatingSystem.NATIVE_CHARSET;
-
-        // After Java 17, file.encoding does not affect console encoding
-        if (options.getJava().getParsedVersion() <= JavaVersion.JAVA_17) {
+        Charset encoding = StandardCharsets.UTF_8;
+        if (options.getJava().getParsedVersion() < JavaVersion.JAVA_8) {
             try {
                 String fileEncoding = res.addDefault("-Dfile.encoding=", encoding.name());
                 if (fileEncoding != null)
                     encoding = Charset.forName(fileEncoding.substring("-Dfile.encoding=".length()));
             } catch (Throwable ex) {
+                encoding = OperatingSystem.NATIVE_CHARSET;
                 LOG.log(Level.WARNING, "Bad file encoding", ex);
             }
+        } else {
+            res.addDefault("-Dfile.encoding=", "UTF-8");
+            try {
+                String stdoutEncoding = res.addDefault("-Dsun.stdout.encoding=", encoding.name());
+                if (stdoutEncoding != null)
+                    encoding = Charset.forName(stdoutEncoding.substring("-Dsun.stdout.encoding=".length()));
+            } catch (Throwable ex) {
+                encoding = OperatingSystem.NATIVE_CHARSET;
+                LOG.log(Level.WARNING, "Bad stdout encoding", ex);
+            }
+
+            res.addDefault("-Dsun.stderr.encoding=", encoding.name());
         }
 
         // JVM Args
@@ -237,7 +244,7 @@ public class DefaultLauncher extends Launcher {
         // Here is a workaround for this issue: https://github.com/huanghongxun/HMCL/issues/1141.
         String nativeFolderPath = nativeFolder.getAbsolutePath();
         Path tempNativeFolder = null;
-        if (OperatingSystem.CURRENT_OS == OperatingSystem.LINUX
+        if ((OperatingSystem.CURRENT_OS == OperatingSystem.LINUX || OperatingSystem.CURRENT_OS == OperatingSystem.OSX)
                 && !StringUtils.isASCII(nativeFolderPath)) {
             tempNativeFolder = Paths.get("/", "tmp", "hmcl-natives-" + UUID.randomUUID());
             nativeFolderPath = tempNativeFolder + File.pathSeparator + nativeFolderPath;
@@ -448,7 +455,7 @@ public class DefaultLauncher extends Launcher {
         if (StringUtils.isNotBlank(options.getPreLaunchCommand())) {
             ProcessBuilder builder = new ProcessBuilder(StringUtils.tokenize(options.getPreLaunchCommand())).directory(runDirectory);
             builder.environment().putAll(getEnvVars());
-            builder.start().waitFor();
+            SystemUtils.callExternalProcess(builder);
         }
 
         Process process;
@@ -480,6 +487,11 @@ public class DefaultLauncher extends Launcher {
         env.put("INST_DIR", repository.getVersionRoot(version.getId()).getAbsolutePath());
         env.put("INST_MC_DIR", repository.getRunDirectory(version.getId()).getAbsolutePath());
         env.put("INST_JAVA", options.getJava().getBinary().toString());
+
+        if (options.isUseSoftwareRenderer() && OperatingSystem.CURRENT_OS == OperatingSystem.LINUX) {
+            env.put("LIBGL_ALWAYS_SOFTWARE", "1");
+            env.put("__GLX_VENDOR_LIBRARY_NAME", "mesa");
+        }
 
         LibraryAnalyzer analyzer = LibraryAnalyzer.analyze(version);
         if (analyzer.has(LibraryAnalyzer.LibraryType.FORGE)) {
@@ -525,9 +537,6 @@ public class DefaultLauncher extends Launcher {
                 throw new IllegalArgumentException("The extension of " + scriptFile + " is not 'sh' or 'ps1' in macOS/Linux");
         }
 
-        if (!FileUtils.makeFile(scriptFile))
-            throw new IOException("Script file: " + scriptFile + " cannot be created.");
-
         final Command commandLine = generateCommandLine(nativeFolder);
         final String command = usePowerShell ? null : commandLine.commandLine.toString();
 
@@ -536,6 +545,9 @@ public class DefaultLauncher extends Launcher {
                 throw new CommandTooLongException();
             }
         }
+
+        if (!FileUtils.makeFile(scriptFile))
+            throw new IOException("Script file: " + scriptFile + " cannot be created.");
 
         OutputStream outputStream = new FileOutputStream(scriptFile);
         Charset charset = StandardCharsets.UTF_8;
@@ -585,7 +597,7 @@ public class DefaultLauncher extends Launcher {
                     writer.write("set APPDATA=" + options.getGameDir().getAbsoluteFile().getParent());
                     writer.newLine();
                     for (Map.Entry<String, String> entry : getEnvVars().entrySet()) {
-                        writer.write("set " + entry.getKey() + "=" + entry.getValue());
+                        writer.write("set " + entry.getKey() + "=" + CommandBuilder.toBatchStringLiteral(entry.getValue()));
                         writer.newLine();
                     }
                     writer.newLine();
@@ -594,7 +606,7 @@ public class DefaultLauncher extends Launcher {
                     writer.write("#!/usr/bin/env bash");
                     writer.newLine();
                     for (Map.Entry<String, String> entry : getEnvVars().entrySet()) {
-                        writer.write("export " + entry.getKey() + "=" + entry.getValue());
+                        writer.write("export " + entry.getKey() + "=" + CommandBuilder.toShellStringLiteral(entry.getValue()));
                         writer.newLine();
                     }
                     if (commandLine.tempNativeFolder != null) {

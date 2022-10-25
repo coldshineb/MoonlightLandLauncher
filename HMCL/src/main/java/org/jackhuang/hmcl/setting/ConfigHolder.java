@@ -39,7 +39,7 @@ public final class ConfigHolder {
 
     public static final String CONFIG_FILENAME = "moonlightlandlauncher.json";
     public static final String CONFIG_FILENAME_LINUX = ".moonlightlandlauncher.json";
-    public static final Path GLOBAL_CONFIG_PATH = Metadata.HMCL_DIRECTORY.resolve("moonlightlandlauncher.json");
+    public static final Path GLOBAL_CONFIG_PATH = Metadata.HMCL_DIRECTORY.resolve("config.json");
 
     private static Path configLocation;
     private static Config configInstance;

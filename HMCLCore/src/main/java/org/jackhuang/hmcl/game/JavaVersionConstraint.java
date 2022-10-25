@@ -116,12 +116,17 @@ public enum JavaVersionConstraint {
         }
     },
     // Minecraft currently does not provide official support for architectures other than x86 and x86-64.
-    VANILLA_X86(JavaVersionConstraint.RULE_MANDATORY, versionRange(JavaVersionConstraint.MIN, JavaVersionConstraint.MAX), versionRange(JavaVersionConstraint.MIN, JavaVersionConstraint.MAX)) {
+    VANILLA_X86(JavaVersionConstraint.RULE_SUGGESTED, versionRange(JavaVersionConstraint.MIN, JavaVersionConstraint.MAX), versionRange(JavaVersionConstraint.MIN, JavaVersionConstraint.MAX)) {
         @Override
         protected boolean appliesToVersionImpl(VersionNumber gameVersionNumber, @Nullable Version version,
                                                @Nullable JavaVersion javaVersion) {
-            return javaVersion != null && !javaVersion.getArchitecture().isX86()
-                    && (OperatingSystem.CURRENT_OS != OperatingSystem.OSX || gameVersionNumber.compareTo(VersionNumber.asVersion("1.19")) < 0);
+            if (javaVersion == null || javaVersion.getArchitecture() != Architecture.ARM64)
+                return false;
+
+            if (OperatingSystem.CURRENT_OS == OperatingSystem.WINDOWS || OperatingSystem.CURRENT_OS == OperatingSystem.OSX)
+                return gameVersionNumber.compareTo(VersionNumber.asVersion("1.6")) < 0;
+
+            return false;
         }
 
         @Override
@@ -237,12 +242,15 @@ public enum JavaVersionConstraint {
     public static JavaVersion findSuitableJavaVersion(VersionNumber gameVersion, Version version) throws InterruptedException {
         VersionRanges range = findSuitableJavaVersionRange(gameVersion, version);
 
+        boolean forceX86 = Architecture.SYSTEM_ARCH == Architecture.ARM64
+                && (OperatingSystem.CURRENT_OS == OperatingSystem.WINDOWS || OperatingSystem.CURRENT_OS == OperatingSystem.OSX)
+                && gameVersion.compareTo(VersionNumber.asVersion("1.6")) < 0;
+
         JavaVersion mandatory = null;
         JavaVersion suggested = null;
         for (JavaVersion javaVersion : JavaVersion.getJavas()) {
             // select the latest x86 java that this version accepts.
-            if (!javaVersion.getArchitecture().isX86()
-                    && (OperatingSystem.CURRENT_OS != OperatingSystem.OSX || gameVersion.compareTo(VersionNumber.asVersion("1.19")) < 0))
+            if (forceX86 && !javaVersion.getArchitecture().isX86())
                 continue;
 
             VersionNumber javaVersionNumber = javaVersion.getVersionNumber();

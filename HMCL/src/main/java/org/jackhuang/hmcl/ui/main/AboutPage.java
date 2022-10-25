@@ -36,11 +36,21 @@ public class AboutPage extends StackPane {
         {
             IconedTwoLineListItem launcher = new IconedTwoLineListItem();
             launcher.setImage(new Image("/assets/img/moonlight.png", 32, 32, false, true));
-            launcher.setTitle("Moonlight Land 启动器");
+            launcher.setTitle("Moonlight Land Launcher");
             launcher.setSubtitle(Metadata.VERSION);
-            //launcher.setExternalLink("https://craft.stomt.world");
 
             about.getContent().setAll(launcher);
+        }
+
+        ComponentList thanks = new ComponentList();
+        {
+            IconedTwoLineListItem coldshine = new IconedTwoLineListItem();
+            coldshine.setImage(new Image("/assets/img/coldshine.png", 64, 64, false, true));
+            coldshine.setTitle("Yukinoshita Coldshine");
+            coldshine.setSubtitle(i18n("about.thanks_to.coldshine.statement"));
+            coldshine.setExternalLink("https://land.coldshine.cn/");
+
+            thanks.getContent().setAll(coldshine);
         }
 
         ComponentList dep = new ComponentList();
@@ -100,7 +110,12 @@ public class AboutPage extends StackPane {
             copyright.setSubtitle(i18n("about.copyright.statement"));
             copyright.setExternalLink("https://hmcl.huangyuhui.net/about/");
 
-            legal.getContent().setAll(copyright);
+            IconedTwoLineListItem openSource = new IconedTwoLineListItem();
+            openSource.setTitle(i18n("about.open_source"));
+            openSource.setSubtitle(i18n("about.open_source.statement"));
+            openSource.setExternalLink("https://github.com/huanghongxun/HMCL");
+
+            legal.getContent().setAll(copyright, openSource);
         }
 
         VBox content = new VBox(16);
@@ -108,6 +123,9 @@ public class AboutPage extends StackPane {
         content.getChildren().setAll(
                 ComponentList.createComponentListTitle(i18n("about")),
                 about,
+
+                ComponentList.createComponentListTitle(i18n("about.thanks_to")),
+                thanks,
 
                 ComponentList.createComponentListTitle(i18n("about.dependency")),
                 dep,

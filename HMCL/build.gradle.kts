@@ -40,20 +40,18 @@ val buildNumber = System.getenv("BUILD_NUMBER")?.toInt().let { number ->
         if (!shortCommit.isNullOrEmpty()) "dev-$shortCommit" else "SNAPSHOT"
     }
 }
-val versionRoot = System.getenv("VERSION_ROOT") ?: "1.0"
+val versionRoot = System.getenv("VERSION_ROOT") ?: "3.5"
 val versionType = System.getenv("VERSION_TYPE") ?: "nightly"
 
 val microsoftAuthId = System.getenv("MICROSOFT_AUTH_ID") ?: ""
 val microsoftAuthSecret = System.getenv("MICROSOFT_AUTH_SECRET") ?: ""
 val curseForgeApiKey = System.getenv("CURSEFORGE_API_KEY") ?: ""
 
-version = "$versionRoot"
+version = "$versionRoot.$buildNumber"
 
 dependencies {
     implementation(project(":HMCLCore"))
     implementation("libs:JFoenix")
-
-    implementation("de.javawi.jstun:jstun:0.7.4")
 }
 
 fun digest(algorithm: String, bytes: ByteArray) = MessageDigest.getInstance(algorithm).digest(bytes)
@@ -266,6 +264,7 @@ val makeExecutables = tasks.create("makeExecutables") {
 
     doLast {
         createExecutable("exe", "src/main/resources/assets/HMCLauncher.exe")
+        createExecutable("sh", "src/main/resources/assets/HMCLauncher.sh")
     }
 }
 

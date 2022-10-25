@@ -54,9 +54,15 @@ import static org.jackhuang.hmcl.util.javafx.ExtendedProperties.selectedItemProp
 
 public final class SettingsPage extends SettingsView {
 
+    private InvalidationListener updateListener;
+
     public SettingsPage() {
         FXUtils.smoothScrolling(scroll);
 
+        // ==== Languages ====
+        cboLanguage.getItems().setAll(Locales.LOCALES);
+        selectedItemPropertyFor(cboLanguage).bindBidirectional(config().localizationProperty());
+        // ====
 
         fileCommonLocation.selectedDataProperty().bindBidirectional(config().commonDirTypeProperty());
         fileCommonLocationSublist.subtitleProperty().bind(

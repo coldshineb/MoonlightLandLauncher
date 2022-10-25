@@ -28,9 +28,9 @@ $messageLabel = New-Object System.Windows.Forms.Label
 $messageLabel.AutoSize = $true
 $messageLabel.Anchor = [System.Windows.Forms.AnchorStyles]::Bottom
 if ($chinese) {
-    $messageLabel.Text = "Moonlight Land 启动器需要 Java 运行时环境才能正常运行，是否自动下载安装 Java？"
+    $messageLabel.Text = "HMCL 需要 Java 运行时环境才能正常运行，是否自动下载安装 Java？"
 } else {
-    $messageLabel.Text = "Running Moonlight Land Launcher requires a Java runtime environment. `nDo you want to download and install Java automatically?"
+    $messageLabel.Text = "Running HMCL requires a Java runtime environment. `nDo you want to download and install Java automatically?"
 }
 
 $useMirrorCheckBox = New-Object System.Windows.Forms.CheckBox

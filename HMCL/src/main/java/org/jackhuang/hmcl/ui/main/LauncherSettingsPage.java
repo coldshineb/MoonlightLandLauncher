@@ -93,7 +93,7 @@ public class LauncherSettingsPage extends DecoratorAnimatedPage implements Decor
                         downloadItem.activeProperty().bind(tab.getSelectionModel().selectedItemProperty().isEqualTo(downloadTab));
                         downloadItem.setOnAction(e -> tab.select(downloadTab));
                     })
-                    .startCategory(i18n("about"))
+                    .startCategory(i18n("help"))
                     .addNavigationDrawerItem(aboutItem -> {
                         aboutItem.setTitle(i18n("about"));
                         aboutItem.setLeftGraphic(wrap(SVG::informationOutline));
