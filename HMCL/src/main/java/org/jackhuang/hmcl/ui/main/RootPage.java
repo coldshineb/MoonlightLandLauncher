@@ -163,19 +163,19 @@ public class RootPage extends DecoratorAnimatedPage implements DecoratorPage {
             launcherSettingsItem.setOnAction(e -> Controllers.navigate(Controllers.getSettingsPage()));
 
             // terms
-            AdvancedListItem termsItem = new AdvancedListItem();
-            termsItem.setLeftGraphic(wrap(SVG::bookOutline));
-            termsItem.setActionButtonVisible(false);
-            termsItem.setTitle(i18n("gennokioku.terms"));
-            termsItem.setOnAction(e -> FXUtils.openLink("https://wiki.craft.stomt.world/terms"));
+            AdvancedListItem discordItem = new AdvancedListItem();
+            discordItem.setLeftGraphic(wrap(SVG::discordIcon));
+            discordItem.setActionButtonVisible(false);
+            discordItem.setTitle(i18n("moonlightland.discord"));
+            discordItem.setOnAction(e -> FXUtils.openLink("https://discord.gg/w3PxJQgcuf"));
 
 
-            // changelog
+/*            // changelog
             AdvancedListItem changelogItem = new AdvancedListItem();
             changelogItem.setLeftGraphic(wrap(SVG::starOutline));
             changelogItem.setActionButtonVisible(false);
             changelogItem.setTitle(i18n("gennokioku.changelog"));
-            changelogItem.setOnAction(e -> FXUtils.openLink("https://wiki.craft.stomt.world/changelog"));
+            changelogItem.setOnAction(e -> FXUtils.openLink("https://wiki.craft.stomt.world/changelog"));*/
 
             // the left sidebar
             AdvancedListBox sideBar = new AdvancedListBox()
@@ -187,9 +187,9 @@ public class RootPage extends DecoratorAnimatedPage implements DecoratorPage {
                     .add(downloadItem)
                     .startCategory(i18n("settings.launcher.general").toUpperCase())
                     .add(launcherSettingsItem)
-                    .startCategory("Gennokioku")
-                    .add(termsItem)
-                    .add(changelogItem);
+                    .startCategory("Moonlight Land")
+                    .add(discordItem);
+                    //.add(changelogItem);
 
             // the root page, with the sidebar in left, navigator in center.
             setLeft(sideBar);

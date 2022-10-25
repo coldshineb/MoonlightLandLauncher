@@ -35,10 +35,10 @@ public class AboutPage extends StackPane {
         ComponentList about = new ComponentList();
         {
             IconedTwoLineListItem launcher = new IconedTwoLineListItem();
-            launcher.setImage(new Image("/assets/img/gennokioku.png", 32, 32, false, true));
-            launcher.setTitle("Gennokioku 启动器");
+            launcher.setImage(new Image("/assets/img/moonlight.png", 32, 32, false, true));
+            launcher.setTitle("Moonlight Land 启动器");
             launcher.setSubtitle(Metadata.VERSION);
-            launcher.setExternalLink("https://craft.stomt.world");
+            //launcher.setExternalLink("https://craft.stomt.world");
 
             about.getContent().setAll(launcher);
         }

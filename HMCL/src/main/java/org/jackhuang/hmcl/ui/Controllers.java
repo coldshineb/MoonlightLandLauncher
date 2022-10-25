@@ -176,7 +176,7 @@ public final class Controllers {
 
         scene = new Scene(decorator.getDecorator());
         scene.setFill(Color.TRANSPARENT);
-        stage.setMinHeight(450 + 2 + 40 + 16 + 60); // bg height + border width*2 + toolbar height + shadow width*2 + gennokioku
+        stage.setMinHeight(450 + 2 + 40 + 16 + 60); // bg height + border width*2 + toolbar height + shadow width*2 + moonlightland
         stage.setMinWidth(800 + 2 + 16); // bg width + border width*2 + shadow width*2
         decorator.getDecorator().prefWidthProperty().bind(scene.widthProperty());
         decorator.getDecorator().prefHeightProperty().bind(scene.heightProperty());
