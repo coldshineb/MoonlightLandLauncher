@@ -100,12 +100,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Calicy LLC"
             VALUE "FileDescription", "Moonlight Land Launcher"
-            VALUE "FileVersion", "1.0.2"
+            VALUE "FileVersion", "1.0.3"
             VALUE "InternalName", "MoonlightLandLauncher.exe"
             VALUE "LegalCopyright", "Copyright (C) 2021 huangyuhui, 2010-2022 Calicy LLC, 2020-2022 Coldshine, 2022 Moonlight Land."
             VALUE "OriginalFilename", "MoonlightLandLauncher.exe"
             VALUE "ProductName", "Moonlight Land Launcher"
-            VALUE "ProductVersion", "1.0.2"
+            VALUE "ProductVersion", "1.0.3"
         END
     END
     BLOCK "VarFileInfo"
