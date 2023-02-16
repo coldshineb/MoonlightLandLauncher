@@ -151,25 +151,19 @@ public class RootPage extends DecoratorAnimatedPage implements DecoratorPage {
             downloadItem.setTitle(i18n("download"));
             downloadItem.setOnAction(e -> Controllers.navigate(Controllers.getDownloadPage()));
 
-            // fifth item in left sidebar
-            AdvancedListItem multiplayerItem = new AdvancedListItem();
-            multiplayerItem.setLeftGraphic(wrap(SVG::lan));
-            multiplayerItem.setActionButtonVisible(false);
-            multiplayerItem.setTitle(i18n("multiplayer"));
-            JFXHyperlink link = new JFXHyperlink(i18n("multiplayer.hint.details"));
-            link.setOnAction(e -> FXUtils.openLink("https://hmcl.huangyuhui.net/api/redirect/multiplayer-migrate"));
-            multiplayerItem.setOnAction(e -> Controllers.dialog(
-                    new MessageDialogPane.Builder(i18n("multiplayer.hint"), null, MessageDialogPane.MessageType.INFO)
-                            .addAction(link)
-                            .ok(null)
-                            .build()));
-
             // sixth item in left sidebar
             AdvancedListItem launcherSettingsItem = new AdvancedListItem();
             launcherSettingsItem.setLeftGraphic(wrap(SVG::gearOutline));
             launcherSettingsItem.setActionButtonVisible(false);
             launcherSettingsItem.setTitle(i18n("settings"));
             launcherSettingsItem.setOnAction(e -> Controllers.navigate(Controllers.getSettingsPage()));
+
+            // discord
+            AdvancedListItem discordItem = new AdvancedListItem();
+            discordItem.setLeftGraphic(wrap(SVG::discordIcon));
+            discordItem.setActionButtonVisible(false);
+            discordItem.setTitle(i18n("moonlightland.discord"));
+            discordItem.setOnAction(e -> FXUtils.openLink("https://discord.gg/w3PxJQgcuf"));
 
             // the left sidebar
             AdvancedListBox sideBar = new AdvancedListBox()
@@ -180,8 +174,9 @@ public class RootPage extends DecoratorAnimatedPage implements DecoratorPage {
                     .add(gameItem)
                     .add(downloadItem)
                     .startCategory(i18n("settings.launcher.general").toUpperCase(Locale.ROOT))
-                    .add(multiplayerItem)
-                    .add(launcherSettingsItem);
+                    .add(launcherSettingsItem)
+                    .startCategory("Moonlight Land")
+                    .add(discordItem);
 
             // the root page, with the sidebar in left, navigator in center.
             setLeft(sideBar);

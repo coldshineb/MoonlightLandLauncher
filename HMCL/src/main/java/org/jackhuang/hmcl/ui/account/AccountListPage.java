@@ -107,21 +107,13 @@ public class AccountListPage extends DecoratorAnimatedPage implements DecoratorP
                     offlineItem.setOnAction(e -> Controllers.dialog(new CreateAccountPane(Accounts.FACTORY_OFFLINE)));
                     boxMethods.getChildren().add(offlineItem);
 
-                    AdvancedListItem mojangItem = new AdvancedListItem();
-                    mojangItem.getStyleClass().add("navigation-drawer-item");
-                    mojangItem.setActionButtonVisible(false);
-                    mojangItem.setTitle(i18n("account.methods.yggdrasil"));
-                    mojangItem.setLeftGraphic(wrap(SVG::mojang));
-                    mojangItem.setOnAction(e -> Controllers.dialog(new CreateAccountPane(Accounts.FACTORY_MOJANG)));
-                    boxMethods.getChildren().add(mojangItem);
-
-                    AdvancedListItem microsoftItem = new AdvancedListItem();
-                    microsoftItem.getStyleClass().add("navigation-drawer-item");
-                    microsoftItem.setActionButtonVisible(false);
-                    microsoftItem.setTitle(i18n("account.methods.microsoft"));
-                    microsoftItem.setLeftGraphic(wrap(SVG::microsoft));
-                    microsoftItem.setOnAction(e -> Controllers.dialog(new CreateAccountPane(Accounts.FACTORY_MICROSOFT)));
-                    boxMethods.getChildren().add(microsoftItem);
+                    AdvancedListItem littleSkinItem = new AdvancedListItem();
+                    littleSkinItem.getStyleClass().add("navigation-drawer-item");
+                    littleSkinItem.setActionButtonVisible(false);
+                    littleSkinItem.setTitle(i18n("account.methods.moonlightland"));
+                    littleSkinItem.setLeftGraphic(wrap(SVG::server));
+                    littleSkinItem.setOnAction(e -> Controllers.dialog(new CreateAccountPane(Accounts.FACTORY_LITTLE_SKIN)));
+                    boxMethods.getChildren().add(littleSkinItem);
 
                     VBox boxAuthServers = new VBox();
                     authServerItems = MappedObservableList.create(skinnable.authServersProperty(), server -> {

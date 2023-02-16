@@ -304,12 +304,6 @@ public class CreateAccountPane extends JFXDialogLayout implements DialogAware {
                 box.getChildren().setAll(profileLink, birthLink, purchaseLink, deauthorizeLink, forgotpasswordLink, createProfileLink);
                 GridPane.setColumnSpan(box, 2);
 
-                if (!IntegrityChecker.isOfficial()) {
-                    HintPane unofficialHint = new HintPane(MessageDialogPane.MessageType.WARNING);
-                    unofficialHint.setText(i18n("unofficial.hint"));
-                    vbox.getChildren().add(unofficialHint);
-                }
-
                 vbox.getChildren().addAll(hintPane, box);
 
                 btnAccept.setDisable(false);
@@ -398,15 +392,6 @@ public class CreateAccountPane extends JFXDialogLayout implements DialogAware {
             getColumnConstraints().add(col1);
 
             int rowIndex = 0;
-
-            if (!IntegrityChecker.isOfficial() && !(factory instanceof OfflineAccountFactory)) {
-                HintPane hintPane = new HintPane(MessageDialogPane.MessageType.WARNING);
-                hintPane.setSegment(i18n("unofficial.hint"));
-                GridPane.setColumnSpan(hintPane, 2);
-                add(hintPane, 0, rowIndex);
-
-                rowIndex++;
-            }
 
             if (factory instanceof BoundAuthlibInjectorAccountFactory) {
                 this.server = ((BoundAuthlibInjectorAccountFactory) factory).getServer();
