@@ -462,16 +462,29 @@ public class DefaultLauncher extends Launcher {
 
     private Map<String, String> getEnvVars() {
         String versionName = Optional.ofNullable(options.getVersionName()).orElse(version.getId());
-        Map<String, String> env = new HashMap<>();
+        Map<String, String> env = new LinkedHashMap<>();
         env.put("INST_NAME", versionName);
         env.put("INST_ID", versionName);
         env.put("INST_DIR", repository.getVersionRoot(version.getId()).getAbsolutePath());
         env.put("INST_MC_DIR", repository.getRunDirectory(version.getId()).getAbsolutePath());
         env.put("INST_JAVA", options.getJava().getBinary().toString());
 
-        if (options.isUseSoftwareRenderer() && OperatingSystem.CURRENT_OS == OperatingSystem.LINUX) {
-            env.put("LIBGL_ALWAYS_SOFTWARE", "1");
-            env.put("__GLX_VENDOR_LIBRARY_NAME", "mesa");
+        Renderer renderer = options.getRenderer();
+        if (renderer != Renderer.DEFAULT) {
+            if (OperatingSystem.CURRENT_OS == OperatingSystem.WINDOWS) {
+                if (renderer != Renderer.LLVMPIPE)
+                    env.put("GALLIUM_DRIVER", renderer.name().toLowerCase(Locale.ROOT));
+            } else if (OperatingSystem.CURRENT_OS == OperatingSystem.LINUX) {
+                env.put("__GLX_VENDOR_LIBRARY_NAME", "mesa");
+                switch (renderer) {
+                    case LLVMPIPE:
+                        env.put("LIBGL_ALWAYS_SOFTWARE", "1");
+                        break;
+                    case ZINK:
+                        env.put("MESA_LOADER_DRIVER_OVERRIDE", "zink");
+                        break;
+                }
+            }
         }
 
         LibraryAnalyzer analyzer = LibraryAnalyzer.analyze(version);
@@ -490,6 +503,9 @@ public class DefaultLauncher extends Launcher {
         if (analyzer.has(LibraryAnalyzer.LibraryType.QUILT)) {
             env.put("INST_QUILT", "1");
         }
+
+        env.putAll(options.getEnvironmentVariables());
+
         return env;
     }
 
