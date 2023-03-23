@@ -170,8 +170,7 @@ public class WorldListPage extends ListPageBase<WorldListItem> implements Versio
 
             return Arrays.asList(chkShowAll,
                     createToolbarButton2(i18n("button.refresh"), SVG::refresh, skinnable::refresh),
-                    createToolbarButton2(i18n("world.add"), SVG::plus, skinnable::add),
-                    createToolbarButton2(i18n("world.download"), SVG::plus, skinnable::download));
+                    createToolbarButton2(i18n("world.add"), SVG::plus, skinnable::add));
         }
     }
 }

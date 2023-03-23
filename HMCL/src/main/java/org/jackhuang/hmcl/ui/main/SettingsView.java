@@ -60,7 +60,7 @@ public abstract class SettingsView extends StackPane {
 
         {
             VBox rootPane = new VBox();
-            rootPane.setPadding(new Insets(32, 10, 32, 10));
+            rootPane.setPadding(new Insets(10, 10, 32, 10));
             {
                 ComponentList settingsPane = new ComponentList();
                 {

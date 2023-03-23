@@ -103,25 +103,17 @@ public class DownloadPage extends DecoratorAnimatedPage implements DecoratorPage
 
         {
             AdvancedListBox sideBar = new AdvancedListBox()
-                    .startCategory(i18n("download.game"))
                     .addNavigationDrawerItem(item -> {
                         item.setTitle(i18n("game"));
                         item.setLeftGraphic(wrap(SVG::gamepad));
                         item.activeProperty().bind(tab.getSelectionModel().selectedItemProperty().isEqualTo(newGameTab));
                         item.setOnAction(e -> tab.select(newGameTab));
                     })
-                    .startCategory(i18n("download.content"))
                     .addNavigationDrawerItem(item -> {
                         item.setTitle(i18n("mods"));
                         item.setLeftGraphic(wrap(SVG::puzzle));
                         item.activeProperty().bind(tab.getSelectionModel().selectedItemProperty().isEqualTo(modTab));
                         item.setOnAction(e -> tab.select(modTab));
-                    })
-                    .addNavigationDrawerItem(item -> {
-                        item.setTitle(i18n("resourcepack"));
-                        item.setLeftGraphic(wrap(SVG::textureBox));
-                        item.activeProperty().bind(tab.getSelectionModel().selectedItemProperty().isEqualTo(resourcePackTab));
-                        item.setOnAction(e -> selectTabIfCurseForgeAvailable(resourcePackTab));
                     });
             FXUtils.setLimitWidth(sideBar, 200);
             setLeft(sideBar);

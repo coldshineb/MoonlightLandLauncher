@@ -48,7 +48,7 @@ public class AboutPage extends StackPane {
             coldshine.setImage(new Image("/assets/img/coldshine.png", 64, 64, false, true));
             coldshine.setTitle("Yukinoshita Coldshine");
             coldshine.setSubtitle(i18n("about.thanks_to.coldshine.statement"));
-            coldshine.setExternalLink("https://land.coldshine.cn/");
+            coldshine.setExternalLink("https://land.coldshine.xyz/");
 
             thanks.getContent().setAll(coldshine);
         }

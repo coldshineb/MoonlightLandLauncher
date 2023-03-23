@@ -94,13 +94,6 @@ public final class VersionsPage extends BorderPane implements WizardPage, Refres
         this.libraryId = libraryId;
         this.navigation = navigation;
 
-        HintPane hintPane = new HintPane();
-        hintPane.setText(i18n("sponsor.bmclapi"));
-        hintPane.getStyleClass().add("sponsor-pane");
-        hintPane.setOnMouseClicked(e -> onSponsor());
-        BorderPane.setMargin(hintPane, new Insets(10, 10, 0, 10));
-        this.setTop(hintPane);
-
         root = new TransitionPane();
         {
             spinner = new JFXSpinner();
