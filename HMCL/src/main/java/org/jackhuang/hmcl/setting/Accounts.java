@@ -85,7 +85,7 @@ public final class Accounts {
     public static final YggdrasilAccountFactory FACTORY_MOJANG = YggdrasilAccountFactory.MOJANG;
     public static final AuthlibInjectorAccountFactory FACTORY_AUTHLIB_INJECTOR = new AuthlibInjectorAccountFactory(AUTHLIB_INJECTOR_DOWNLOADER, Accounts::getOrCreateAuthlibInjectorServer);
     public static final MicrosoftAccountFactory FACTORY_MICROSOFT = new MicrosoftAccountFactory(new MicrosoftService(OAUTH_CALLBACK));
-    public static final BoundAuthlibInjectorAccountFactory FACTORY_LITTLE_SKIN = getAccountFactoryByAuthlibInjectorServer(new AuthlibInjectorServer("https://gennokiokuauth.stomt.world/api/yggdrasil/"));
+    public static final BoundAuthlibInjectorAccountFactory FACTORY_LITTLE_SKIN = getAccountFactoryByAuthlibInjectorServer(new AuthlibInjectorServer("https://auth.gennokioku.city/api/yggdrasil/"));
     public static final List<AccountFactory<?>> FACTORIES = immutableListOf(FACTORY_OFFLINE, FACTORY_MOJANG, FACTORY_MICROSOFT, FACTORY_AUTHLIB_INJECTOR);
 
     // ==== login type / account factory mapping ====
@@ -228,7 +228,7 @@ public final class Accounts {
             throw new IllegalStateException("Already initialized");
 
         if (!config().isAddedLittleSkin()) {
-            AuthlibInjectorServer littleSkin = new AuthlibInjectorServer("https://gennokiokuauth.stomt.world/api/yggdrasil/");
+            AuthlibInjectorServer littleSkin = new AuthlibInjectorServer("https://auth.gennokioku.city/api/yggdrasil/");
 
             if (config().getAuthlibInjectorServers().stream().noneMatch(it -> littleSkin.getUrl().equals(it.getUrl()))) {
                 config().getAuthlibInjectorServers().add(0, littleSkin);
