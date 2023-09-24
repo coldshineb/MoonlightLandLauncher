@@ -150,20 +150,9 @@ public class AccountListPage extends DecoratorAnimatedPage implements DecoratorP
                     boxMethods.getChildren().add(boxAuthServers);
                 }
 
-                AdvancedListItem addAuthServerItem = new AdvancedListItem();
-                {
-                    addAuthServerItem.getStyleClass().add("navigation-drawer-item");
-                    addAuthServerItem.setTitle(i18n("account.injector.add"));
-                    addAuthServerItem.setSubtitle(i18n("account.methods.authlib_injector"));
-                    addAuthServerItem.setActionButtonVisible(false);
-                    addAuthServerItem.setLeftGraphic(wrap(SVG.PLUS_CIRCLE_OUTLINE));
-                    addAuthServerItem.setOnAction(e -> Controllers.dialog(new AddAuthlibInjectorServerPane()));
-                    VBox.setMargin(addAuthServerItem, new Insets(0, 0, 12, 0));
-                }
-
                 ScrollPane scrollPane = new ScrollPane(boxMethods);
                 VBox.setVgrow(scrollPane, Priority.ALWAYS);
-                setLeft(scrollPane, addAuthServerItem);
+                setLeft(scrollPane);
             }
 
             ScrollPane scrollPane = new ScrollPane();
