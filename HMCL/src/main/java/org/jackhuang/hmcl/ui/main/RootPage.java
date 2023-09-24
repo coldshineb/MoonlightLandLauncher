@@ -139,28 +139,29 @@ public class RootPage extends DecoratorAnimatedPage implements DecoratorPage {
 
             // third item in left sidebar
             AdvancedListItem gameItem = new AdvancedListItem();
-            gameItem.setLeftGraphic(wrap(SVG::viewList));
+            gameItem.setLeftGraphic(wrap(SVG.VIEW_LIST));
             gameItem.setActionButtonVisible(false);
             gameItem.setTitle(i18n("version.manage"));
             gameItem.setOnAction(e -> Controllers.navigate(Controllers.getGameListPage()));
 
             // forth item in left sidebar
             AdvancedListItem downloadItem = new AdvancedListItem();
-            downloadItem.setLeftGraphic(wrap(SVG::downloadOutline));
+            downloadItem.setLeftGraphic(wrap(SVG.DOWNLOAD_OUTLINE));
             downloadItem.setActionButtonVisible(false);
             downloadItem.setTitle(i18n("download"));
             downloadItem.setOnAction(e -> Controllers.navigate(Controllers.getDownloadPage()));
+            runInFX(() -> FXUtils.installFastTooltip(downloadItem, i18n("download.hint")));
 
             // sixth item in left sidebar
             AdvancedListItem launcherSettingsItem = new AdvancedListItem();
-            launcherSettingsItem.setLeftGraphic(wrap(SVG::gearOutline));
+            launcherSettingsItem.setLeftGraphic(wrap(SVG.GEAR_OUTLINE));
             launcherSettingsItem.setActionButtonVisible(false);
             launcherSettingsItem.setTitle(i18n("settings"));
             launcherSettingsItem.setOnAction(e -> Controllers.navigate(Controllers.getSettingsPage()));
 
             // discord
             AdvancedListItem discordItem = new AdvancedListItem();
-            discordItem.setLeftGraphic(wrap(SVG::discordIcon));
+            discordItem.setLeftGraphic(wrap(SVG.DISCORD));
             discordItem.setActionButtonVisible(false);
             discordItem.setTitle(i18n("moonlightland.discord"));
             discordItem.setOnAction(e -> FXUtils.openLink("https://discord.gg/w3PxJQgcuf"));
